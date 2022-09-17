@@ -10,3 +10,4 @@ for i in range(len(numbers)):
             print(f"{numbers[i]} + {numbers[j]} = {target}")
 print(f"Iterations done: {counter}")
 [print(pair) for pair in unique_pairs]
+print(*unique_pairs, sep='\n')
