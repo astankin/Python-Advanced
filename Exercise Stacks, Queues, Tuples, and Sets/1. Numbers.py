@@ -1,32 +1,31 @@
-def adding_numbers(sequence):
-    nums = set([int(num) for num in command[2:]])
-    sequence = sequence.union(nums)
-    return sequence
+def add_elements(sequence, data_):
+    nums = set(int(x) for x in data_[2:])
+    return sequence.union(nums)
 
 
-def removing_numbers(sequence):
-    nums = set([int(num) for num in command if num.isdigit()])
-    sequence = sequence.difference(nums)
-    return sequence
+def removing_elements(sequence, data_):
+    nums = set(int(x) for x in data_[2:])
+    return sequence.difference(nums)
 
 
-first_sequence = set([int(num) for num in input().split()])
-second_sequence = set([int(num) for num in input().split()])
+first_sequence = set([int(x) for x in input().split()])
+second_sequence = set([int(x) for x in input().split()])
 n = int(input())
-for _ in range(n):
-    command = input().split()
-    if command[0] == "Add":
-        if command[1] == "First":
-            first_sequence = adding_numbers(first_sequence)
-        elif command[1] == "Second":
-            second_sequence = adding_numbers(second_sequence)
-    elif command[0] == "Remove":
-        if command[1] == "First":
-            first_sequence = removing_numbers(first_sequence)
-        elif command[1] == "Second":
-            second_sequence = removing_numbers(second_sequence)
-    elif command[0] == "Check":
-        print(first_sequence.issubset(second_sequence) or second_sequence.issubset(first_sequence)) # Printing True or False 
 
+for _ in range(n):
+    data = input().split()
+    command = data[0]
+    if command == "Add":
+        if data[1] == "First":
+            first_sequence = add_elements(first_sequence, data)
+        elif data[1] == "Second":
+            second_sequence = add_elements(second_sequence, data)
+    elif command == "Remove":
+        if data[1] == "First":
+            first_sequence = removing_elements(first_sequence, data)
+        elif data[1] == "Second":
+            second_sequence = removing_elements(second_sequence, data)
+    else:
+        print(first_sequence.issubset(second_sequence) or second_sequence.issubset(first_sequence))
 print(*sorted(first_sequence), sep=', ')
 print(*sorted(second_sequence), sep=', ')
