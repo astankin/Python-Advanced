@@ -18,7 +18,7 @@ def calc(op, nums):
     #     "/": operator.truediv
     # }
     first_num = nums.popleft()
-    while len(nums) > 0:
+    while nums:
         result = ops[op](first_num, nums.popleft())
         first_num = result
     nums.appendleft(math.floor(first_num))
