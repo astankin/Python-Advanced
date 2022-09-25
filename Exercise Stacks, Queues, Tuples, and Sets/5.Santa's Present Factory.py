@@ -31,7 +31,7 @@ while materials and magic_level:
     else:
         if result < 0:
             materials.append(material + magic)
-        elif result > 0 :
+        elif result > 0:
             materials.append(material + 15)
 if ("Doll" in toys and "Wooden train" in toys) or ("Teddy bear" in toys and "Bicycle" in toys):
     print("The presents are crafted! Merry Christmas!")

@@ -1,43 +1,33 @@
 from collections import deque
 
-string = deque(input().split())
-main_colours = ['red', 'yellow', 'blue']
-second_colours = ['orange', 'purple', 'green']
-collected_colours = []
-while string:
-    left = string.popleft()
-    right = string.pop() if string else ""
-
-    result = left + right
-    if result in main_colours or result in second_colours:
-        collected_colours.append(result)
-        continue
-    result = right + left
-    if result in main_colours or result in second_colours:
-        collected_colours.append(result)
-        continue
-    left = left[:-1]
-    right = right[:-1]
-    string.insert(len(string)//2, left) if left else None
-    if right:
-        string.insert(len(string)//2, right)
-result = []
+main_colors = ["red", "yellow", "blue"]
+secondary_colors = ["orange", "purple", "green"]
 ingredients = {
     'orange': ['red', 'yellow'],
     'purple': ['red', 'blue'],
     'green': ['yellow', 'blue']
 }
+string = deque(input().split())
+fined_colors = []
+while string:
+    left_part = string.popleft()
+    right_part = string.pop() if string else ""
+    if left_part + right_part in main_colors or left_part + right_part in secondary_colors:
+        fined_colors.append(left_part + right_part)
+    elif right_part + left_part in main_colors or right_part + left_part in secondary_colors:
+        fined_colors.append(right_part + left_part)
+    else:
+        left_part = left_part[:-1]
+        right_part = right_part[:-1]
+        if left_part:
+            string.insert(len(string) // 2, left_part)
+        if right_part:
+            string.insert(len(string) // 2, right_part)
 
-for colour in collected_colours:
-    if colour in main_colours:
-        result.append(colour)
-        continue
-    is_collected = True
-    for ingredient in ingredients[colour]:
-        if ingredient not in collected_colours:
-            is_collected = False
-            break
-    if is_collected:
-        result.append(colour)
 
-print(result)
+for color in fined_colors:
+    if color in secondary_colors:
+        for ingredient in ingredients[color]:
+            if ingredient not in fined_colors:
+                fined_colors.remove(color)
+print(fined_colors)

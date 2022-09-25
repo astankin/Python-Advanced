@@ -15,8 +15,8 @@ def is_inside(row, col):
 
 
 def shooting(direct, row, col):
-    shot_target = 0
-    target_position = []
+    shot_targets = 0
+    targets_coordinates = []
     while True:
         if direct == "down":
             row += 1
@@ -30,10 +30,10 @@ def shooting(direct, row, col):
             break
         if matrix[row][col] == "x":
             matrix[row][col] = "."
-            shot_target = 1
-            target_position.append([row, col])
+            shot_targets = 1
+            targets_coordinates.append([row, col])
             break
-    return shot_target, target_position
+    return shot_targets, targets_coordinates
 
 
 matrix = []

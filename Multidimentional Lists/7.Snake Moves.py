@@ -1,15 +1,11 @@
-n, m = [int(x) for x in input().split()]
-text = input()
-matrix = []
-idx = 0
-for i in range(n):
-    row = ""
-    for col in range(m):
-        row += text[idx % len(text)]
-        idx += 1
+rows, cols = [int(x) for x in input().split()]
+string = input()
+
+snake = string*rows*cols
+for i in range(rows):
+    output = snake[:cols]
     if i % 2 == 0:
-        matrix.append(row)
+        print(output)
     else:
-        matrix.append(row[::-1])
-for row in matrix:
-    print(*row, sep="")
+        print(output[::-1])
+    snake = snake.replace(output, "", 1)

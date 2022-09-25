@@ -1,56 +1,53 @@
-def get_max_sum(direction, matrix, row, col):
-    sum_of_eggs = 0
-    positions = []
+def is_inside(row, col, n):
+    return 0 <= row < n and 0 <= col < n
+
+
+def moving(direction, b_row, b_col):
     if direction == "up":
-        for i in range(row - 1, -1, -1):
-            if matrix[i][col] == "X":
-                break
-            sum_of_eggs += int(matrix[i][col])
-            positions.append([i, col])
+        b_row -= 1
     elif direction == "down":
-        for i in range(row + 1, size, 1):
-            if matrix[i][col] == "X":
-                break
-            sum_of_eggs += int(matrix[i][col])
-            positions.append([i, col])
+        b_row += 1
     elif direction == "left":
-        for i in range(col - 1, -1, -1):
-            if matrix[row][i] == "X":
-                break
-            sum_of_eggs += int(matrix[row][i])
-            positions.append([row, i])
+        b_col -= 1
     elif direction == "right":
-        for i in range(col + 1, size, 1):
-            if matrix[row][i] == "X":
-                break
-            sum_of_eggs += int(matrix[row][i])
-            positions.append([row, i])
-    return sum_of_eggs, positions
+        b_col += 1
+    return b_row, b_col
 
 
-size = int(input())
+n = int(input())
 matrix = []
+directions = ["up", "down", "left", "right"]
 bunny_row = 0
 bunny_col = 0
-directions = ['up', 'down', 'left', 'right']
-for row in range(size):
+for i in range(n):
     line = input().split()
     matrix.append(line)
-    for col in range(len(line)):
-        if line[col] == "B":
-            bunny_row = row
-            bunny_col = col
-best_score = float('-inf')
-the_best_direction = ""
-best_path = []
-for direction in directions:
-    max_sum, positions = get_max_sum(direction, matrix, bunny_row, bunny_col)
-    if max_sum > best_score and positions:
-        best_score = max_sum
-        the_best_direction = direction
-        best_path = positions
+    if "B" in line:
+        bunny_row = i
+        bunny_col = line.index("B")
 
+the_best_direction = ""
+the_best_coordinates = []
+the_best_sum = float('-inf')
+for direction in directions:
+    b_row = bunny_row
+    b_col = bunny_col
+    coordinates = []
+    collected_eggs = 0
+    while True:
+        next_row, next_col = moving(direction, b_row, b_col)
+        if is_inside(next_row, next_col, n) and matrix[next_row][next_col] != "X":
+            collected_eggs += int(matrix[next_row][next_col])
+            coordinates.append([next_row, next_col])
+            b_row = next_row
+            b_col = next_col
+        else:
+            break
+    if collected_eggs > the_best_sum and coordinates:
+        the_best_sum = collected_eggs
+        the_best_direction = direction
+        the_best_coordinates = coordinates
 print(the_best_direction)
-for row in best_path:
-    print(row)
-print(best_score)
+for elem in the_best_coordinates:
+    print(f"{elem}")
+print(the_best_sum)
