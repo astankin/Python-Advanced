@@ -1,18 +1,16 @@
+from functools import reduce
+
+
 def operate(operator, *args):
-    result = 0 if operator in '+-' else 1
+    result = 0
     if operator == "+":
-        result = sum(args)
-    elif operator == "*":
-        for num in args:
-            result *= int(num)
-    elif operator == "-":
-        result = args[0]
-        for i in range(1, len(args)):
-            result -= args[i]
-    elif operator == "/":
-        result = args[0]
-        for i in range(1, len(args)):
-            result /= int(args[i])
+        result = reduce(lambda x, y: x+y, args)
+    if operator == "-":
+        result = reduce(lambda x, y: x-y, args)
+    if operator == "*":
+        result = reduce(lambda x, y: x*y, args)
+    if operator == "/":
+        result = reduce(lambda x, y: x/y, args)
 
     return result
 

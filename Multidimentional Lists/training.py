@@ -1,75 +1,61 @@
-def moving(direct, row, col, steps):
-    if direct == "right":
-        col += steps
-    elif direct == "left":
-        col -= steps
-    elif direct == "up":
-        row -= steps
-    elif direct == "down":
-        row += steps
-    return row, col
+def moving(direction, a_row, a_col):
+    if direction == "up":
+        a_row -= 1
+    elif direction == "down":
+        a_row += 1
+    elif direction == "left":
+        a_col -= 1
+    elif direction == "right":
+        a_col += 1
+    return a_row, a_col
 
 
-def is_inside(row, col):
-    return 0 <= row < 5 and 0 <= col < 5
+def is_inside_the_field(r, c, n):
+    return 0 <= r < n and 0 <= c < n
 
 
-def shooting(direct, row, col):
-    shot_targets = 0
-    targets_coordinates = []
-    while True:
-        if direct == "down":
-            row += 1
-        elif direct == "up":
-            row -= 1
-        elif direct == "left":
-            col -= 1
-        elif direct == "right":
-            col += 1
-        if not is_inside(row, col):
-            break
-        if matrix[row][col] == "x":
-            matrix[row][col] = "."
-            shot_targets = 1
-            targets_coordinates.append([row, col])
-            break
-    return shot_targets, targets_coordinates
-
-
+n = int(input())
 matrix = []
-player_row = 0
-player_col = 0
-targets_count = 0
-for i in range(5):
+alice_row = 0
+alice_col = 0
+collected_tea_bags = 0
+go_to_tea_party = False
+for row in range(n):
     line = input().split()
     matrix.append(line)
     if "A" in line:
-        player_row = i
-        player_col = line.index("A")
-    if "x" in line:
-        targets_count += line.count("x")
+        alice_row = row
+        alice_col = line.index("A")
 
-number_of_commands = int(input())
-total_targets_shot = 0
-targets = []
-for _ in range(number_of_commands):
-    command = input().split()
-    direction = command[1]
-    if command[0] == "move":
-        steps = int(command[2])
-        next_row, next_col = moving(direction, player_row, player_col, steps)
-        if is_inside(next_row, next_col) and matrix[next_row][next_col] == ".":
-            matrix[player_row][player_col] = "."
-            player_row, player_col = next_row, next_col
-            matrix[player_row][player_col] = "A"
-    elif command[0] == "shoot":
-        shot_targets, target_positions = shooting(direction, player_row, player_col)
-        total_targets_shot += shot_targets
-        targets.extend(target_positions)
-        if total_targets_shot == targets_count:
-            print(f"Training completed! All {targets_count} targets hit.")
+while True:
+    command = input()
+    if command == "":
+        break
+    next_row, next_col = moving(command, alice_row, alice_col)
+    if is_inside_the_field(next_row, next_col, n):
+        if matrix[next_row][next_col].isdigit():
+            matrix[alice_row][alice_col] = "*"
+            alice_row = next_row
+            alice_col = next_col
+            collected_tea_bags += int(matrix[next_row][next_col])
+            if collected_tea_bags >= 10:
+                matrix[alice_row][alice_col] = "*"
+                go_to_tea_party = True
+                break
+        elif matrix[next_row][next_col] == "R":
+            matrix[alice_row][alice_col] = "*"
+            matrix[next_row][next_col] = "*"
             break
+        else:
+            matrix[alice_row][alice_col] = "*"
+            alice_row = next_row
+            alice_col = next_col
 
-if targets_count - total_targets_shot > 0:
-    print(f"Training not completed! {targets_count - total_targets_shot} targets left.")
-[print(row) for row in targets]
+    else:
+        matrix[alice_row][alice_col] = "*"
+        break
+if not go_to_tea_party:
+    print(f"Alice didn't make it to the tea party.")
+else:
+    print(f"She did it! She went to the party.")
+[print(*row) for row in matrix]

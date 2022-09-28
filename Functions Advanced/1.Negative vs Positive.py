@@ -1,9 +1,13 @@
-numbers = [int(num) for num in input().split()]
-negatives_nums = sum([x for x in numbers if x < 0])
-positives_nums = sum(filter(lambda x: x > 0, numbers))
-print(negatives_nums)
-print(positives_nums)
-if abs(negatives_nums) > positives_nums:
+def negative_positive(*args):
+    negatives = [int(x) for x in args if int(x) < 0]
+    positives = [int(x) for x in args if int(x) > 0]
+    return sum(negatives), sum(positives)
+
+
+negative_sum, positive_sum = negative_positive(*input().split())
+print(negative_sum)
+print(positive_sum)
+if abs(negative_sum) > positive_sum:
     print("The negatives are stronger than the positives")
 else:
     print("The positives are stronger than the negatives")
