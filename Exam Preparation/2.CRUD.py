@@ -1,5 +1,3 @@
-
-
 def moving(direction, row, col):
     if direction == "up":
         row -= 1
@@ -17,8 +15,8 @@ def is_inside(row, col):
 
 
 matrix = [[line for line in input().split()] for _ in range(6)]
-player_row, player_col = [int(x) for x in input().strip("(").strip(")").split(", ")]
-
+#player_row, player_col = [int(x) for x in input().strip("(").strip(")").split(", ")]
+player_row, player_col = eval(input())
 while True:
     data = input()
     if data == "Stop":

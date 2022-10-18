@@ -8,12 +8,10 @@ while eggs and paper:
     current_egg = eggs.popleft()
     if current_egg <= 0:
         continue
-    current_paper = paper.pop()
     if current_egg == 13:
-        first_paper = paper.popleft()
-        paper.append(first_paper)
-        paper.appendleft(current_paper)
+        paper[0], paper[-1] = paper[-1], paper[0]
         continue
+    current_paper = paper.pop()
     if current_egg + current_paper <= 50:
         filled_boxes_count += 1
 
